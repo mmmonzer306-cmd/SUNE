@@ -1,0 +1,103 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Profile {
+  id        Int      @id @default(1)
+  name      String   @default("Mohammed Mohsen")
+  title     String   @default("Full-stack Web Developer")
+  bio1      String?
+  bio2      String?
+  email     String?
+  phone     String?
+  github    String?
+  facebook  String?
+  telegram  String?
+  linkedin  String?
+  twitter   String?
+  avatarUrl String?
+  resumeUrl String?
+  updatedAt DateTime @updatedAt
+
+  // Translations stored as JSON strings
+  titleAr   String?
+  titleFr   String?
+  bio1Ar    String?
+  bio1Fr    String?
+  bio2Ar    String?
+  bio2Fr    String?
+}
+
+model Skill {
+  id          Int    @id @default(autoincrement())
+  name        String
+  nameAr      String?
+  nameFr      String?
+  description String?
+  descAr      String?
+  descFr      String?
+  level       Int    @default(80)
+  imageUrl    String?
+  order       Int    @default(0)
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  name        String
+  nameAr      String?
+  nameFr      String?
+  description String?
+  descAr      String?
+  descFr      String?
+  imageUrl    String?
+  liveUrl     String?
+  githubUrl   String?
+  techStack   String[]
+  featured    Boolean  @default(false)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Article {
+  id         Int      @id @default(autoincrement())
+  title      String
+  slug       String   @unique
+  excerpt    String?
+  content    String
+  coverImage String?
+  tags       String[]
+  published  Boolean  @default(false)
+  views      Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Message {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  subject   String?
+  message   String
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Admin {
+  id              Int     @id @default(1)
+  username        String  @unique
+  password        String
+  mustChangePass  Boolean @default(true)
+}
+
+model SiteSettings {
+  id          Int    @id @default(1)
+  theme       String @default("dark")
+  lang        String @default("en")
+  metaTitle   String @default("Mohammed Mohsen | Software Engineer")
+  metaDesc    String @default("Full-Stack Developer passionate about turning ideas into reality.")
+}
