@@ -2,27 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ===== FONTS ===== */
-
-
-@font-face {
-  font-family: 'Cairo';
-  src: url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
- format('truetype');
-  font-weight: 400;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Inter';
-  src: url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
- format('opentype');
-  font-weight: 400;
-  font-style: normal;
-}
+/* ===== FONTS (Google Fonts) ===== */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 /* ===== DARK THEME (default) ===== */
-:root, [data-theme="dark"] {
+:root,
+[data-theme="dark"] {
   --font-space: 'Space Grotesk', sans-serif;
   --font-fira: 'Fira Code', monospace;
   --font-orbitron: 'Orbitron', sans-serif;
@@ -62,6 +48,7 @@
   --scanline: rgba(0,153,204,0.02);
 }
 
+/* ===== RESET ===== */
 * {
   box-sizing: border-box;
   padding: 0;
@@ -72,39 +59,42 @@ html {
   scroll-behavior: smooth;
 }
 
-/* ===== GLOBAL FONT CONTROL ===== */
-
+/* ===== BODY FONT CONTROL ===== */
 body {
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
   transition: background 0.3s ease, color 0.3s ease;
-
-  font-family: var(--font-main), sans-serif !important;
+  font-family: var(--font-main), sans-serif;
 }
 
-/* RTL = Arabic font */
+/* RTL Arabic */
 html[dir="rtl"] body {
-  font-family: var(--font-arabic), sans-serif !important;
+  font-family: var(--font-arabic), sans-serif;
 }
 
-/* LTR = English / French */
+/* LTR English / French */
 html[dir="ltr"] body {
-  font-family: var(--font-main), sans-serif !important;
+  font-family: var(--font-main), sans-serif;
 }
 
-/* HARD OVERRIDE */
-*, *::before, *::after {
-  font-family: inherit !important;
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--accent);
+  border-radius: 3px;
+}
+::selection {
+  background: rgba(0,212,255,0.2);
+  color: var(--accent);
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: var(--bg); }
-::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 3px; }
-::selection { background: rgba(0,212,255,0.2); color: var(--accent); }
-
-/* Noise overlay - dark only */
+/* ===== Noise overlay (dark only) ===== */
 [data-theme="dark"] body::before {
   content: '';
   position: fixed;
@@ -118,10 +108,19 @@ html[dir="ltr"] body {
   opacity: 0.35;
 }
 
-/* Utility classes */
-.glow-accent { text-shadow: 0 0 20px rgba(0,212,255,0.5); }
-.glow-box { box-shadow: 0 0 30px var(--accent-glow); }
-.glow-box-hover:hover { box-shadow: 0 0 40px var(--accent-glow); transition: box-shadow 0.3s ease; }
+/* ===== Utility classes ===== */
+.glow-accent {
+  text-shadow: 0 0 20px rgba(0,212,255,0.5);
+}
+
+.glow-box {
+  box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.glow-box-hover:hover {
+  box-shadow: 0 0 40px var(--accent-glow);
+  transition: box-shadow 0.3s ease;
+}
 
 .gradient-text {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
@@ -137,6 +136,7 @@ html[dir="ltr"] body {
   background-size: 60px 60px;
 }
 
+/* ===== Cards ===== */
 .tech-card {
   background: var(--card);
   border: 1px solid var(--border);
@@ -144,12 +144,14 @@ html[dir="ltr"] body {
   transition: all 0.3s ease;
   box-shadow: 0 4px 20px var(--shadow);
 }
+
 .tech-card:hover {
   border-color: rgba(0,212,255,0.3);
   transform: translateY(-3px);
   box-shadow: 0 12px 30px var(--shadow);
 }
 
+/* ===== Buttons ===== */
 .btn-primary {
   background: linear-gradient(135deg, var(--accent), var(--accent-2));
   color: #fff;
@@ -164,6 +166,7 @@ html[dir="ltr"] body {
   display: inline-flex;
   align-items: center;
 }
+
 .btn-primary::before {
   content: '';
   position: absolute;
@@ -174,8 +177,15 @@ html[dir="ltr"] body {
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
   transition: left 0.5s ease;
 }
-.btn-primary:hover::before { left: 100%; }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px var(--accent-glow); }
+
+.btn-primary:hover::before {
+  left: 100%;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px var(--accent-glow);
+}
 
 .btn-outline {
   background: transparent;
@@ -189,19 +199,22 @@ html[dir="ltr"] body {
   display: inline-flex;
   align-items: center;
 }
+
 .btn-outline:hover {
   background: var(--accent-glow);
   transform: translateY(-2px);
 }
 
+/* ===== Typography ===== */
 .section-title {
-  font-family: inherit !important;
+  font-family: inherit;
   font-size: clamp(1.5rem, 3vw, 2.5rem);
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
 }
 
+/* ===== Inputs ===== */
 .tech-input {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -211,21 +224,25 @@ html[dir="ltr"] body {
   width: 100%;
   transition: all 0.3s ease;
 }
+
 .tech-input:focus {
   outline: none;
   border-color: var(--accent);
   box-shadow: 0 0 0 3px var(--accent-glow);
 }
+
 .tech-input::placeholder {
   color: var(--text-muted);
 }
 
+/* ===== Skill Bar ===== */
 .skill-bar {
   height: 6px;
   background: var(--border);
   border-radius: 3px;
   overflow: hidden;
 }
+
 .skill-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--accent), var(--accent-2));
@@ -233,30 +250,54 @@ html[dir="ltr"] body {
   transition: width 1s ease;
 }
 
+/* ===== Animations ===== */
 @keyframes fadeUp {
-  from { opacity: 0; transform: translateY(30px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-15px); }
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-15px);
+  }
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 @keyframes scanline {
-  0% { transform: translateY(-100%); }
-  100% { transform: translateY(100vh); }
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(100vh);
+  }
 }
 
-.animate-fade-up { animation: fadeUp 0.6s ease forwards; }
-.animate-float { animation: float 6s ease-in-out infinite; }
+.animate-fade-up {
+  animation: fadeUp 0.6s ease forwards;
+}
 
-/* RTL tweaks */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* ===== RTL tweaks ===== */
 [dir="rtl"] .font-mono {
   letter-spacing: 0;
 }
