@@ -49,7 +49,7 @@ ${message}
         body: JSON.stringify({
           chat_id: TELEGRAM_CHAT_ID,
           text: text,
-          parse_mode: 'Markdown',
+          parse_mode: 'HTML',
         }),
       }).catch((err) => console.error('❌ فشل إرسال التيليجرام:', err));
     }
