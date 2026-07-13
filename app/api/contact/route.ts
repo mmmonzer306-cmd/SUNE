@@ -26,7 +26,21 @@ export async function POST(req: NextRequest) {
 
     if (TELEGRAM_TOKEN && TELEGRAM_CHAT_ID) {
       // تهيئة نص الرسالة (Markdown عشان التنسيق)
-      const text = `📩 *رسالة جديدة من بورتفوليوك!*%0A%0A👤 *الاسم:* ${name}%0A📧 *البريد:* ${email}%0A📌 *الموضوع:* ${subject || 'غير محدد'}%0A💬 *الرسالة:* ${message}`;
+
+const text = `
+📩 <b>رسالة جديدة من البورتفوليو</b>
+
+👤 <b>الاسم:</b> ${name}
+📧 <b>البريد:</b> ${email}
+📌 <b>الموضوع:</b> ${subject || "غير محدد"}
+
+💬 <b>الرسالة:</b>
+
+${message}
+
+━━━━━━━━━━━━━━
+🌐 Portfolio Contact Form
+`; 
 
       // إرسال الإشعار (من غير `await` عشان ما يبطئ الرد)
       fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage`, {
