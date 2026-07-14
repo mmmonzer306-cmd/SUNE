@@ -38,20 +38,20 @@ export default async function ArticlePage({ params }: { params: { slug: string }
       <Navbar />
       <main className="min-h-screen pt-32 pb-20" style={{ background: 'var(--bg)' }}>
         <div className="max-w-3xl mx-auto px-6">
-          <Link href="/blog" className="inline-flex items-center gap-2 text-sm font-mono mb-12 transition-colors"
+          <Link href="/blog" className="inline-flex items-center gap-2 text-sm  mb-12 transition-colors"
             style={{ color: 'var(--text-muted)' }}>
             <FiArrowLeft /> Back to Blog
           </Link>
           <div className="flex flex-wrap gap-2 mb-6">
             {article.tags.map((tag: string) => (
-              <span key={tag} className="text-xs font-mono px-2 py-1 rounded"
+              <span key={tag} className="text-xs  px-2 py-1 rounded"
                 style={{ background: 'rgba(0,212,255,0.1)', color: 'var(--accent)', border: '1px solid rgba(0,212,255,0.2)' }}>
                 #{tag}
               </span>
             ))}
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-6 leading-tight" style={{ color: 'var(--text)' }}>{article.title}</h1>
-          <div className="flex gap-6 text-xs font-mono mb-12 pb-8" style={{ color: 'var(--muted)', borderBottom: '1px solid var(--border)' }}>
+          <div className="flex gap-6 text-xs  mb-12 pb-8" style={{ color: 'var(--muted)', borderBottom: '1px solid var(--border)' }}>
             <span className="flex items-center gap-1"><FiCalendar size={11} /> {new Date(article.createdAt).toLocaleDateString()}</span>
             <span className="flex items-center gap-1"><FiEye size={11} /> {article.views + 1} views</span>
           </div>

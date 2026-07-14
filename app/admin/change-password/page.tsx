@@ -43,7 +43,7 @@ export default function ChangePasswordPage() {
 
   const InputField = ({ field, label, showKey }: { field: keyof typeof form; label: string; showKey: keyof typeof show }) => (
     <div>
-      <label className="block text-sm font-mono mb-2" style={{ color: 'var(--text-muted)' }}>{label}</label>
+      <label className="block text-sm  mb-2" style={{ color: 'var(--text-muted)' }}>{label}</label>
       <div className="relative">
         <FiLock className="absolute left-3 top-1/2 -translate-y-1/2" size={14} style={{ color: 'var(--muted)' }} />
         <input
@@ -74,7 +74,7 @@ export default function ChangePasswordPage() {
             <FiShield size={28} style={{ color: 'var(--accent)' }} />
           </div>
           <h1 className="font-display text-2xl font-bold gradient-text">Set New Password</h1>
-          <p className="text-sm font-mono mt-2" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-sm  mt-2" style={{ color: 'var(--text-muted)' }}>
             // First login — please change your password
           </p>
         </div>
@@ -86,7 +86,7 @@ export default function ChangePasswordPage() {
 
           {/* Password strength hint */}
           {form.newPass && (
-            <div className="text-xs font-mono px-3 py-2 rounded" style={{
+            <div className="text-xs  px-3 py-2 rounded" style={{
               background: form.newPass.length >= 8 ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)',
               color: form.newPass.length >= 8 ? '#10b981' : '#ef4444',
               border: `1px solid ${form.newPass.length >= 8 ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}`,
@@ -96,7 +96,7 @@ export default function ChangePasswordPage() {
           )}
 
           {error && (
-            <p className="text-sm font-mono text-center px-3 py-2 rounded"
+            <p className="text-sm  text-center px-3 py-2 rounded"
               style={{ color: '#ef4444', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)' }}>
               {error}
             </p>

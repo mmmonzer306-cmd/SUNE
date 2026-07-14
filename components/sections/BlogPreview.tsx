@@ -16,10 +16,10 @@ export default function BlogPreview({ articles }: { articles: Article[] }) {
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="flex items-end justify-between mb-16">
           <div>
-            <p className="font-mono text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>&gt; blog.latest</p>
+            <p className=" text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>&gt; blog.latest</p>
             <h2 className="section-title gradient-text">{t('blog.title')}</h2>
           </div>
-          <Link href="/blog" className="hidden md:flex items-center gap-2 text-sm font-mono transition-colors"
+          <Link href="/blog" className="hidden md:flex items-center gap-2 text-sm  transition-colors"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
             onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}>
@@ -34,12 +34,12 @@ export default function BlogPreview({ articles }: { articles: Article[] }) {
               <Link href={`/blog/${article.slug}`} className="tech-card glow-hover block p-6 h-full">
                 <div className="flex flex-wrap gap-2 mb-4">
                   {article.tags.slice(0, 2).map((tag) => (
-                    <span key={tag} className="text-xs font-mono px-2 py-1 rounded tag-accent">#{tag}</span>
+                    <span key={tag} className="text-xs  px-2 py-1 rounded tag-accent">#{tag}</span>
                   ))}
                 </div>
                 <h3 className="font-bold mb-3 line-clamp-2" style={{ color: 'var(--text)' }}>{article.title}</h3>
                 {article.excerpt && <p className="text-sm leading-relaxed mb-4 line-clamp-3" style={{ color: 'var(--text-muted)' }}>{article.excerpt}</p>}
-                <div className="flex items-center gap-4 text-xs font-mono" style={{ color: 'var(--muted)' }}>
+                <div className="flex items-center gap-4 text-xs " style={{ color: 'var(--muted)' }}>
                   <span className="flex items-center gap-1"><FiCalendar size={11} /> {new Date(article.createdAt).toLocaleDateString()}</span>
                   <span className="flex items-center gap-1"><FiEye size={11} /> {article.views}</span>
                 </div>

@@ -41,7 +41,7 @@ export default function AdminLogin() {
             <FiLock size={24} style={{ color: 'var(--accent)' }} />
           </div>
           <h1 className="font-display text-2xl font-bold gradient-text">Admin Panel</h1>
-          <p className="text-xs font-mono mt-1" style={{ color: 'var(--text-muted)' }}>// Restricted Access</p>
+          <p className="text-xs  mt-1" style={{ color: 'var(--text-muted)' }}>// Restricted Access</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -63,7 +63,7 @@ export default function AdminLogin() {
           </div>
 
           {error && (
-            <p className="text-sm font-mono text-center py-2 px-3 rounded"
+            <p className="text-sm  text-center py-2 px-3 rounded"
               style={{ color: '#ef4444', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.2)' }}>
               {error}
             </p>

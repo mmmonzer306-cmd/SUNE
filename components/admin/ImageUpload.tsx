@@ -57,7 +57,7 @@ export default function ImageUpload({ value, onChange, folder = 'general', label
 
   return (
     <div>
-      <label className="block text-sm font-mono mb-2" style={{ color: 'var(--text-muted)' }}>{label}</label>
+      <label className="block text-sm  mb-2" style={{ color: 'var(--text-muted)' }}>{label}</label>
       <div
         className={`relative ${heightClass} flex items-center justify-center cursor-pointer transition-all overflow-hidden`}
         style={{ background: 'var(--surface)', border: `2px dashed ${uploading ? 'var(--accent)' : 'var(--border)'}` }}
@@ -88,7 +88,7 @@ export default function ImageUpload({ value, onChange, folder = 'general', label
             ) : (
               <>
                 <FiImage size={28} style={{ color: 'var(--muted)' }} />
-                <p className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>
+                <p className="text-xs " style={{ color: 'var(--text-muted)' }}>
                   Click or drag & drop<br />
                   <span style={{ color: 'var(--muted)' }}>JPG, PNG, WebP · max 5MB</span>
                 </p>
@@ -110,7 +110,7 @@ export default function ImageUpload({ value, onChange, folder = 'general', label
         />
       </div>
 
-      {error && <p className="text-xs mt-1 font-mono" style={{ color: '#ef4444' }}>{error}</p>}
+      {error && <p className="text-xs mt-1 " style={{ color: '#ef4444' }}>{error}</p>}
 
       <input
         ref={inputRef}

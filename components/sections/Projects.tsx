@@ -25,7 +25,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
       <div className="max-w-7xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="text-center mb-16">
-          <p className="font-mono text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
+          <p className=" text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
             &gt; projects.json
           </p>
           <h2 className="section-title gradient-text mb-4">{t('projects.title')}</h2>
@@ -33,7 +33,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
           <div className="inline-flex gap-1 p-1 rounded-lg" style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
             {['all', 'featured'].map((f) => (
               <button key={f} onClick={() => setFilter(f as typeof filter)}
-                className="px-4 py-2 rounded-md text-sm font-mono capitalize transition-all"
+                className="px-4 py-2 rounded-md text-sm  capitalize transition-all"
                 style={{ background: filter === f ? 'var(--accent)' : 'transparent', color: filter === f ? '#0a0a0f' : 'var(--text-muted)', fontWeight: filter === f ? 700 : 400 }}>
                 {f}
               </button>
@@ -42,7 +42,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
         </motion.div>
 
         {filtered.length === 0 ? (
-          <div className="text-center font-mono py-20" style={{ color: 'var(--text-muted)' }}>// No projects yet.</div>
+          <div className="text-center  py-20" style={{ color: 'var(--text-muted)' }}>// No projects yet.</div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((project, i) => (
@@ -61,7 +61,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
                     </div>
                   )}
                   {project.featured && (
-                    <span className="absolute top-3 right-3 text-xs font-mono px-2 py-1 rounded"
+                    <span className="absolute top-3 right-3 text-xs  px-2 py-1 rounded"
                       style={{ background: 'rgba(0,212,255,0.2)', color: 'var(--accent)', border: '1px solid rgba(0,212,255,0.3)' }}>
                       Featured
                     </span>
@@ -74,7 +74,7 @@ export default function Projects({ projects }: { projects: Project[] }) {
                   </p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     {project.techStack.map((tech) => (
-                      <span key={tech} className="text-xs font-mono px-2 py-1 rounded"
+                      <span key={tech} className="text-xs  px-2 py-1 rounded"
                         style={{ background: 'var(--bg)', color: 'var(--accent-2)', border: '1px solid rgba(124,58,237,0.2)' }}>
                         {tech}
                       </span>
@@ -83,14 +83,14 @@ export default function Projects({ projects }: { projects: Project[] }) {
                   <div className="flex gap-4">
                     {project.githubUrl && (
                       <a href={project.githubUrl} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-sm font-mono transition-colors"
+                        className="flex items-center gap-1.5 text-sm  transition-colors"
                         style={{ color: 'var(--text-muted)' }}>
                         <FiGithub size={14} /> Code
                       </a>
                     )}
                     {project.liveUrl && (
                       <a href={project.liveUrl} target="_blank" rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-sm font-mono transition-colors"
+                        className="flex items-center gap-1.5 text-sm  transition-colors"
                         style={{ color: 'var(--accent)' }}>
                         <FiExternalLink size={14} /> {t('project.view')}
                       </a>

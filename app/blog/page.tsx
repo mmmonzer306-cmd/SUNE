@@ -31,17 +31,17 @@ export default async function BlogPage() {
       <Navbar />
       <main className="min-h-screen pt-32 pb-20" style={{ background: 'var(--bg)' }}>
         <div className="max-w-4xl mx-auto px-6">
-          <Link href="/" className="inline-flex items-center gap-2 text-sm font-mono mb-12 transition-colors"
+          <Link href="/" className="inline-flex items-center gap-2 text-sm  mb-12 transition-colors"
             style={{ color: 'var(--text-muted)' }}>
             <FiArrowLeft /> Back to Portfolio
           </Link>
           <div className="mb-16">
-            <p className="font-mono text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>&gt; blog.all</p>
+            <p className=" text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>&gt; blog.all</p>
             <h1 className="section-title gradient-text">Tech Articles</h1>
           </div>
 
           {articles.length === 0 ? (
-            <div className="text-center font-mono py-20 tech-card" style={{ color: 'var(--text-muted)' }}>
+            <div className="text-center  py-20 tech-card" style={{ color: 'var(--text-muted)' }}>
               // No articles published yet.
             </div>
           ) : (
@@ -50,7 +50,7 @@ export default async function BlogPage() {
                 <Link key={article.id} href={`/blog/${article.slug}`} className="tech-card block p-8 glow-box-hover">
                   <div className="flex flex-wrap gap-2 mb-4">
                     {article.tags.map((tag: string) => (
-                      <span key={tag} className="text-xs font-mono px-2 py-1 rounded"
+                      <span key={tag} className="text-xs  px-2 py-1 rounded"
                         style={{ background: 'rgba(0,212,255,0.1)', color: 'var(--accent)', border: '1px solid rgba(0,212,255,0.2)' }}>
                         #{tag}
                       </span>
@@ -58,7 +58,7 @@ export default async function BlogPage() {
                   </div>
                   <h2 className="text-xl font-bold mb-3" style={{ color: 'var(--text)' }}>{article.title}</h2>
                   {article.excerpt && <p className="leading-relaxed mb-4" style={{ color: 'var(--text-muted)' }}>{article.excerpt}</p>}
-                  <div className="flex gap-6 text-xs font-mono" style={{ color: 'var(--muted)' }}>
+                  <div className="flex gap-6 text-xs " style={{ color: 'var(--muted)' }}>
                     <span className="flex items-center gap-1"><FiCalendar size={11} /> {new Date(article.createdAt).toLocaleDateString()}</span>
                     <span className="flex items-center gap-1"><FiEye size={11} /> {article.views} views</span>
                   </div>

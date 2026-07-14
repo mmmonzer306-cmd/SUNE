@@ -19,6 +19,8 @@ export default function Contact({ profile }: { profile: Profile }) {
       setStatus(res.ok ? 'success' : 'error');
       if (res.ok) setForm({ name: '', email: '', subject: '', message: '' });
     } catch { setStatus('error'); }
+
+    
   };
 
   const projectOptions = [t('option.service'), t('option.restaurant'), t('option.ecommerce'), t('option.portfolio')];
@@ -34,7 +36,7 @@ export default function Contact({ profile }: { profile: Profile }) {
       <div className="max-w-7xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="text-center mb-16">
-          <p className="font-mono text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>&gt; contact.init()</p>
+          <p className=" text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>&gt; contact.init()</p>
           <h2 className="section-title gradient-text">{t('contact.title')}</h2>
           <div className="w-24 h-px mx-auto mt-4" style={{ background: 'linear-gradient(90deg, transparent, var(--accent), transparent)' }} />
         </motion.div>
@@ -72,8 +74,8 @@ export default function Contact({ profile }: { profile: Profile }) {
             <button type="submit" disabled={status === 'loading'} className="btn-primary w-full flex items-center justify-center gap-2">
               {status === 'loading' ? '...' : <><FiSend /> {t('contact.submit')}</>}
             </button>
-            {status === 'success' && <p className="text-center text-sm font-mono" style={{ color: '#4ade80' }}>✓ {t('form.success')}</p>}
-            {status === 'error' && <p className="text-center text-sm font-mono text-red-400">✗ {t('form.error')}</p>}
+            {status === 'success' && <p className="text-center text-sm " style={{ color: '#4ade80' }}>✓ {t('form.success')}</p>}
+            {status === 'error' && <p className="text-center text-sm  text-red-400">✗ {t('form.error')}</p>}
           </motion.form>
         </div>
       </div>

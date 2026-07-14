@@ -51,7 +51,7 @@ export default function Navbar() {
         <div className="hidden md:flex items-center gap-6 flex-1 justify-center">
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href}
-              className="text-sm font-mono uppercase tracking-wider relative group transition-colors"
+              className="text-sm  uppercase tracking-wider relative group transition-colors"
               style={{ color: 'var(--text-muted)' }}
             >
               {link.label}
@@ -75,7 +75,7 @@ export default function Navbar() {
           {/* Language Selector */}
           <div className="relative">
             <button onClick={() => setLangOpen(!langOpen)}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm font-mono transition-all"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-sm  transition-all"
               style={{ color: 'var(--accent)', background: 'var(--surface)', border: '1px solid var(--border)' }}
             >
               <FiGlobe size={14} />
@@ -92,7 +92,7 @@ export default function Navbar() {
                 >
                   {langs.map((l) => (
                     <button key={l.code} onClick={() => { setLang(l.code as 'en'|'ar'|'fr'); setLangOpen(false); }}
-                      className="w-full px-4 py-2.5 text-sm font-mono text-left flex items-center justify-between transition-colors"
+                      className="w-full px-4 py-2.5 text-sm  text-left flex items-center justify-between transition-colors"
                       style={{
                         color: lang === l.code ? 'var(--accent)' : 'var(--text-muted)',
                         background: lang === l.code ? 'var(--accent-glow)' : 'transparent',
@@ -131,7 +131,7 @@ export default function Navbar() {
           >
             {navLinks.map((link) => (
               <Link key={link.href} href={link.href} onClick={() => setMenuOpen(false)}
-                className="block py-3 font-mono text-sm uppercase tracking-wider transition-colors"
+                className="block py-3  text-sm uppercase tracking-wider transition-colors"
                 style={{ color: 'var(--text-muted)', borderBottom: '1px solid var(--border)' }}
               >
                 {link.label}

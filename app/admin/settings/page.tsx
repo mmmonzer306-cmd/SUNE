@@ -40,7 +40,7 @@ export default function AdminSettings() {
 
         {/* Theme */}
         <div className="tech-card p-6 mb-6">
-          <p className="font-mono text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>// Appearance</p>
+          <p className=" text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>// Appearance</p>
           <div className="flex items-center justify-between">
             <div>
               <p className="font-medium" style={{ color: 'var(--text)' }}>Theme</p>
@@ -54,11 +54,11 @@ export default function AdminSettings() {
 
         {/* Language */}
         <div className="tech-card p-6 mb-6">
-          <p className="font-mono text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>// Default Language</p>
+          <p className=" text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>// Default Language</p>
           <div className="flex gap-3">
             {(['en', 'ar', 'fr'] as const).map((l) => (
               <button key={l} onClick={() => setLang(l)}
-                className="px-4 py-2 rounded-lg text-sm font-mono uppercase border transition-all"
+                className="px-4 py-2 rounded-lg text-sm  uppercase border transition-all"
                 style={{
                   background: lang === l ? 'var(--accent)' : 'transparent',
                   color: lang === l ? '#000' : 'var(--text-muted)',
@@ -73,22 +73,22 @@ export default function AdminSettings() {
 
         {/* Change Password */}
         <div className="tech-card p-6">
-          <p className="font-mono text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>// Change Password</p>
+          <p className=" text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>// Change Password</p>
           <form onSubmit={changePassword} className="space-y-4">
             <div>
-              <label className="block text-xs font-mono mb-1.5" style={{ color: 'var(--text-muted)' }}>Current Password</label>
+              <label className="block text-xs  mb-1.5" style={{ color: 'var(--text-muted)' }}>Current Password</label>
               <input type="password" value={pass.current} onChange={(e) => setPass({ ...pass, current: e.target.value })} required className="tech-input text-sm" />
             </div>
             <div>
-              <label className="block text-xs font-mono mb-1.5" style={{ color: 'var(--text-muted)' }}>New Password (min 8 chars)</label>
+              <label className="block text-xs  mb-1.5" style={{ color: 'var(--text-muted)' }}>New Password (min 8 chars)</label>
               <input type="password" value={pass.new} onChange={(e) => setPass({ ...pass, new: e.target.value })} required className="tech-input text-sm" />
             </div>
             <div>
-              <label className="block text-xs font-mono mb-1.5" style={{ color: 'var(--text-muted)' }}>Confirm New Password</label>
+              <label className="block text-xs  mb-1.5" style={{ color: 'var(--text-muted)' }}>Confirm New Password</label>
               <input type="password" value={pass.confirm} onChange={(e) => setPass({ ...pass, confirm: e.target.value })} required className="tech-input text-sm" />
             </div>
-            {passError && <p className="text-red-400 text-sm font-mono">{passError}</p>}
-            {passStatus === 'success' && <p className="text-sm font-mono" style={{ color: '#4ade80' }}>✓ Password changed successfully!</p>}
+            {passError && <p className="text-red-400 text-sm ">{passError}</p>}
+            {passStatus === 'success' && <p className="text-sm " style={{ color: '#4ade80' }}>✓ Password changed successfully!</p>}
             <button type="submit" disabled={passStatus === 'loading'} className="btn-primary flex items-center gap-2 text-sm">
               <FiLock size={14} /> {passStatus === 'loading' ? 'Saving...' : 'Change Password'}
             </button>

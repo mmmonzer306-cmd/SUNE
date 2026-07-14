@@ -40,12 +40,12 @@ export default function ArticleEditor({ article }: Props) {
       <AdminNav />
       <main className="max-w-4xl mx-auto px-6 py-10">
         <div className="flex items-center justify-between mb-6">
-          <Link href="/admin/articles" className="flex items-center gap-2 text-sm font-mono transition-colors" style={{ color: 'var(--text-muted)' }}
+          <Link href="/admin/articles" className="flex items-center gap-2 text-sm  transition-colors" style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')} onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}>
             <FiArrowLeft size={14} /> Back
           </Link>
           <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 text-sm font-mono cursor-pointer" style={{ color: 'var(--text-muted)' }}>
+            <label className="flex items-center gap-2 text-sm  cursor-pointer" style={{ color: 'var(--text-muted)' }}>
               <input type="checkbox" checked={form.published} onChange={(e) => setForm({ ...form, published: e.target.checked })} className="accent-[#00d4ff]" />
               Publish
             </label>

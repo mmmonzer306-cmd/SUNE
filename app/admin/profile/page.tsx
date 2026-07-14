@@ -36,7 +36,7 @@ export default function AdminProfile() {
 
   const F = ({ k, label, multi = false, rows = 4 }: { k: keyof typeof form; label: string; multi?: boolean; rows?: number }) => (
     <div>
-      <label className="block text-sm font-mono mb-2" style={{ color: 'var(--text-muted)' }}>{label}</label>
+      <label className="block text-sm  mb-2" style={{ color: 'var(--text-muted)' }}>{label}</label>
       {multi ? (
         <textarea value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })}
           rows={rows} className="tech-input resize-none" />
@@ -53,7 +53,7 @@ export default function AdminProfile() {
       <main className="max-w-4xl mx-auto px-6 py-12">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <p className="font-mono text-sm uppercase tracking-widest mb-1" style={{ color: 'var(--accent)' }}>&gt; profile.edit</p>
+            <p className=" text-sm uppercase tracking-widest mb-1" style={{ color: 'var(--accent)' }}>&gt; profile.edit</p>
             <h1 className="font-display text-2xl font-bold gradient-text">Edit Profile</h1>
           </div>
           <button onClick={save} disabled={saving}
@@ -66,7 +66,7 @@ export default function AdminProfile() {
         <div className="flex gap-1 p-1 rounded-lg mb-8 overflow-x-auto" style={{ background: 'var(--card)', border: '1px solid var(--border)' }}>
           {tabs.map((t, i) => (
             <button key={t} onClick={() => setTab(i)}
-              className="px-4 py-2 rounded-md text-sm font-mono whitespace-nowrap transition-all"
+              className="px-4 py-2 rounded-md text-sm  whitespace-nowrap transition-all"
               style={{ background: tab === i ? 'var(--accent)' : 'transparent', color: tab === i ? '#0a0a0f' : 'var(--text-muted)', fontWeight: tab === i ? 700 : 400 }}>
               {t}
             </button>

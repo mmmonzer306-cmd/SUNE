@@ -35,7 +35,7 @@ export default function AdminSkills() {
 
   const F = ({ k, label }: { k: keyof typeof form; label: string }) => (
     <div>
-      <label className="block text-xs font-mono mb-1" style={{ color: 'var(--text-muted)' }}>{label}</label>
+      <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>{label}</label>
       <input value={String(form[k])} onChange={(e) => setForm({ ...form, [k]: e.target.value })} className="tech-input text-sm py-2" />
     </div>
   );
@@ -46,7 +46,7 @@ export default function AdminSkills() {
       <main className="max-w-5xl mx-auto px-6 py-12">
         <div className="flex items-center justify-between mb-10">
           <div>
-            <p className="font-mono text-sm uppercase tracking-widest mb-1" style={{ color: 'var(--accent)' }}>&gt; skills.manage</p>
+            <p className=" text-sm uppercase tracking-widest mb-1" style={{ color: 'var(--accent)' }}>&gt; skills.manage</p>
             <h1 className="font-display text-2xl font-bold gradient-text">Skills</h1>
           </div>
           <button onClick={() => { setForm(empty); setEditing(null); setShowForm(true); }} className="btn-primary flex items-center gap-2 text-sm">
@@ -57,7 +57,7 @@ export default function AdminSkills() {
         {showForm && (
           <div className="tech-card p-8 mb-8">
             <div className="flex items-center justify-between mb-6">
-              <p className="font-mono text-sm" style={{ color: 'var(--accent)' }}>{editing ? '// Edit Skill' : '// New Skill'}</p>
+              <p className=" text-sm" style={{ color: 'var(--accent)' }}>{editing ? '// Edit Skill' : '// New Skill'}</p>
               <button onClick={() => setShowForm(false)} style={{ color: 'var(--text-muted)' }}><FiX /></button>
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -68,21 +68,21 @@ export default function AdminSkills() {
                   <F k="nameFr" label="Nom (FR)" />
                 </div>
                 <div>
-                  <label className="block text-xs font-mono mb-1" style={{ color: 'var(--text-muted)' }}>Level: {form.level}%</label>
+                  <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>Level: {form.level}%</label>
                   <input type="range" min={0} max={100} value={form.level}
                     onChange={(e) => setForm({ ...form, level: Number(e.target.value) })}
                     className="w-full" style={{ accentColor: 'var(--accent)' }} />
                 </div>
                 <div>
-                  <label className="block text-xs font-mono mb-1" style={{ color: 'var(--text-muted)' }}>Description (EN)</label>
+                  <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>Description (EN)</label>
                   <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2} className="tech-input text-sm resize-none" />
                 </div>
                 <div>
-                  <label className="block text-xs font-mono mb-1" style={{ color: 'var(--text-muted)' }}>الوصف (AR)</label>
+                  <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>الوصف (AR)</label>
                   <textarea value={form.descAr} onChange={(e) => setForm({ ...form, descAr: e.target.value })} rows={2} className="tech-input text-sm resize-none" />
                 </div>
                 <div>
-                  <label className="block text-xs font-mono mb-1" style={{ color: 'var(--text-muted)' }}>Description (FR)</label>
+                  <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>Description (FR)</label>
                   <textarea value={form.descFr} onChange={(e) => setForm({ ...form, descFr: e.target.value })} rows={2} className="tech-input text-sm resize-none" />
                 </div>
               </div>
@@ -102,12 +102,12 @@ export default function AdminSkills() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="font-bold" style={{ color: 'var(--text)' }}>{s.name}</span>
-                  {s.nameAr && <span className="text-xs font-mono" style={{ color: 'var(--text-muted)' }}>/ {s.nameAr}</span>}
+                  {s.nameAr && <span className="text-xs " style={{ color: 'var(--text-muted)' }}>/ {s.nameAr}</span>}
                 </div>
                 <div className="skill-bar mt-2">
                   <div className="skill-bar-fill" style={{ width: `${s.level}%` }} />
                 </div>
-                <span className="text-xs font-mono mt-1" style={{ color: 'var(--accent)' }}>{s.level}%</span>
+                <span className="text-xs  mt-1" style={{ color: 'var(--accent)' }}>{s.level}%</span>
               </div>
               <div className="flex gap-1 shrink-0">
                 <button onClick={() => edit(s)} className="p-2 rounded transition-colors" style={{ color: 'var(--text-muted)' }}><FiEdit size={15} /></button>

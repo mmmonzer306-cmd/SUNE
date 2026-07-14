@@ -4,9 +4,9 @@ import './globals.css';
 import { Providers } from './providers';
 import { prisma } from '@/lib/prisma';
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-space' });
-const firaCode = Fira_Code({ subsets: ['latin'], variable: '--font-fira' });
-const orbitron = Orbitron({ subsets: ['latin'], variable: '--font-orbitron' });
+const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-main' });
+const firaCode = Fira_Code({ subsets: ['latin'], variable: '--font-arabic' });
+const orbitron = Orbitron({ subsets: ['latin'], variable: '--font-arabic' });
 
 export async function generateMetadata(): Promise<Metadata> {
   try {

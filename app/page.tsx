@@ -35,8 +35,8 @@ export default async function HomePage() {
         <Hero profile={p as any} />
         <About profile={p as any} />
         <Skills skills={skills} />
-        <Projects projects={projects} />
-        <BlogPreview articles={articles as any} />
+        <Projects projects={projects  as any[]} />
+        <BlogPreview articles={articles as any[]} />
         <Contact profile={p as any} />
       </main>
       <Footer profile={p as any} />

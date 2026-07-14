@@ -40,7 +40,7 @@ export default function ImageUpload({ value, onChange, label = 'Image' }: ImageU
 
   return (
     <div>
-      {label && <label className="block text-sm font-mono mb-2" style={{ color: 'var(--text-muted)' }}>{label}</label>}
+      {label && <label className="block text-sm  mb-2" style={{ color: 'var(--text-muted)' }}>{label}</label>}
       <div
         className={`drop-zone p-4 cursor-pointer ${dragOver ? 'drag-over' : ''}`}
         onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
@@ -67,7 +67,7 @@ export default function ImageUpload({ value, onChange, label = 'Image' }: ImageU
             {uploading ? (
               <div className="flex flex-col items-center gap-2">
                 <div className="w-8 h-8 border-2 rounded-full border-t-transparent animate-spin" style={{ borderColor: 'var(--accent)', borderTopColor: 'transparent' }} />
-                <span className="text-sm font-mono" style={{ color: 'var(--text-muted)' }}>Uploading...</span>
+                <span className="text-sm " style={{ color: 'var(--text-muted)' }}>Uploading...</span>
               </div>
             ) : (
               <>
@@ -93,7 +93,7 @@ export default function ImageUpload({ value, onChange, label = 'Image' }: ImageU
           className="tech-input py-2 text-sm"
         />
       </div>
-      {error && <p className="text-red-400 text-xs mt-1 font-mono">{error}</p>}
+      {error && <p className="text-red-400 text-xs mt-1 ">{error}</p>}
       <input ref={inputRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) upload(f); }} />
     </div>
   );

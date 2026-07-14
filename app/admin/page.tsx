@@ -31,7 +31,7 @@ export default async function AdminDashboard() {
       <AdminNav />
       <main className="max-w-7xl mx-auto px-6 py-12">
         <div className="mb-10">
-          <p className="font-mono text-sm uppercase tracking-widest mb-2" style={{ color: 'var(--accent)' }}>&gt; dashboard</p>
+          <p className=" text-sm uppercase tracking-widest mb-2" style={{ color: 'var(--accent)' }}>&gt; dashboard</p>
           <h1 className="font-display text-3xl font-bold gradient-text">Welcome back, {session.user?.name} 👋</h1>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
@@ -42,7 +42,7 @@ export default async function AdminDashboard() {
                 <div className="text-3xl font-bold font-display gradient-text mb-1">{card.value}</div>
               )}
               <div className="font-semibold mb-1" style={{ color: 'var(--text)' }}>{card.label}</div>
-              {card.sub && <div className="text-xs font-mono" style={{ color: card.sub.includes('unread') ? '#f59e0b' : 'var(--text-muted)' }}>{card.sub}</div>}
+              {card.sub && <div className="text-xs " style={{ color: card.sub.includes('unread') ? '#f59e0b' : 'var(--text-muted)' }}>{card.sub}</div>}
             </a>
           ))}
         </div>

@@ -33,7 +33,7 @@ export default function AdminNav() {
           <div className="hidden md:flex items-center gap-1">
             {links.map(({ href, label, icon: Icon, exact }) => (
               <Link key={href} href={href}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-mono transition-all"
+                className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs  transition-all"
                 style={{
                   background: isActive(href, exact) ? 'color-mix(in srgb, var(--accent) 12%, transparent)' : 'transparent',
                   color: isActive(href, exact) ? 'var(--accent)' : 'var(--text-muted)',
@@ -49,14 +49,14 @@ export default function AdminNav() {
             style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}>
             {theme === 'dark' ? <FiSun size={14} /> : <FiMoon size={14} />}
           </button>
-          <Link href="/" target="_blank" className="text-xs font-mono transition-colors px-2"
+          <Link href="/" target="_blank" className="text-xs  transition-colors px-2"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
             onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}>
             View Site →
           </Link>
           <button onClick={() => signOut({ callbackUrl: '/admin/login' })}
-            className="flex items-center gap-1.5 text-xs font-mono transition-colors"
+            className="flex items-center gap-1.5 text-xs  transition-colors"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => (e.currentTarget.style.color = '#f87171')}
             onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}>

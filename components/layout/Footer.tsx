@@ -19,7 +19,7 @@ export default function Footer({ profile }: { profile: Profile }) {
             <p className="mt-3 text-sm" style={{ color: 'var(--text-muted)' }}>Full-Stack Developer & Software Engineer</p>
           </div>
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>{t('footer.quickLinks')}</p>
+            <p className=" text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>{t('footer.quickLinks')}</p>
             <div className="space-y-2">
               {[['#about', t('nav.about')], ['#skills', t('nav.skills')], ['#contact', t('nav.contact')], ['/blog', t('nav.blog')]].map(([href, label]) => (
                 <Link key={href} href={href} className="block text-sm transition-colors" style={{ color: 'var(--text-muted)' }}
@@ -31,7 +31,7 @@ export default function Footer({ profile }: { profile: Profile }) {
             </div>
           </div>
           <div>
-            <p className="font-mono text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>{t('footer.connect')}</p>
+            <p className=" text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>{t('footer.connect')}</p>
             <div className="flex gap-3">
               {profile.github && (
                 <a href={profile.github} target="_blank" rel="noopener noreferrer"
@@ -51,7 +51,7 @@ export default function Footer({ profile }: { profile: Profile }) {
           </div>
         </div>
         <div className="border-t pt-6 text-center" style={{ borderColor: 'var(--border)' }}>
-          <p className="font-mono text-xs" style={{ color: 'var(--muted)' }}>{t('footer.copyright')}</p>
+          <p className=" text-xs" style={{ color: 'var(--muted)' }}>{t('footer.copyright')}</p>
         </div>
       </div>
     </footer>

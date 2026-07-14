@@ -3,18 +3,28 @@
 @tailwind utilities;
 
 /* ===== FONTS (Google Fonts) ===== */
-@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap");
+
+@font-face {
+  font-family: Cairo;
+  src: url(../public/fonts/Cairo/static/Cairo-Regular.ttf);
+}
+
+@font-face {
+  font-family: Nautica;
+  src: url(../public/fonts/Nautica/NauticaRounded-Regular.ttf);
+}
 
 /* ===== DARK THEME (default) ===== */
 :root,
 [data-theme="dark"] {
-  --font-space: 'Space Grotesk', sans-serif;
-  --font-fira: 'Fira Code', monospace;
-  --font-orbitron: 'Orbitron', sans-serif;
+  --font-space: "Space Grotesk", sans-serif;
+  --font-fira: "Fira Code", monospace;
+  --font-orbitron: "Orbitron", sans-serif;
 
-  --font-main: 'Inter', sans-serif;
-  --font-arabic: 'Cairo', sans-serif;
+  --font-main: "Nautica", sans-serif;
+  --font-arabic: "Cairo", sans-serif;
 
   --bg: #0a0a0f;
   --surface: #111118;
@@ -22,13 +32,13 @@
   --border: #1e1e2e;
   --accent: #00d4ff;
   --accent-2: #7c3aed;
-  --accent-glow: rgba(0,212,255,0.15);
+  --accent-glow: rgba(0, 212, 255, 0.15);
   --muted: #4a4a6a;
   --text: #e2e2f0;
   --text-muted: #8888aa;
-  --shadow: rgba(0,0,0,0.5);
-  --nav-bg: rgba(10,10,15,0.95);
-  --scanline: rgba(0,212,255,0.04);
+  --shadow: rgba(0, 0, 0, 0.5);
+  --nav-bg: rgba(10, 10, 15, 0.95);
+  --scanline: rgba(0, 212, 255, 0.04);
 }
 
 /* ===== LIGHT THEME ===== */
@@ -39,13 +49,13 @@
   --border: #e0e0ef;
   --accent: #0099cc;
   --accent-2: #6d28d9;
-  --accent-glow: rgba(0,153,204,0.1);
+  --accent-glow: rgba(0, 153, 204, 0.1);
   --muted: #a0a0c0;
   --text: #1a1a2e;
   --text-muted: #555577;
-  --shadow: rgba(0,0,0,0.1);
-  --nav-bg: rgba(245,245,250,0.95);
-  --scanline: rgba(0,153,204,0.02);
+  --shadow: rgba(0, 0, 0, 0.1);
+  --nav-bg: rgba(245, 245, 250, 0.95);
+  --scanline: rgba(0, 153, 204, 0.02);
 }
 
 /* ===== RESET ===== */
@@ -64,17 +74,23 @@ body {
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;
-  transition: background 0.3s ease, color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
   font-family: var(--font-main), sans-serif;
 }
 
 /* RTL Arabic */
-html[dir="rtl"] body {
-  font-family: var(--font-arabic), sans-serif;
+html[dir="rtl"] body,
+button,
+input {
+  font-family: var(--font-arabic), sans-serif !important;
 }
 
 /* LTR English / French */
-html[dir="ltr"] body {
+html[dir="ltr"] body,
+button,
+input {
   font-family: var(--font-main), sans-serif;
 }
 
@@ -90,13 +106,13 @@ html[dir="ltr"] body {
   border-radius: 3px;
 }
 ::selection {
-  background: rgba(0,212,255,0.2);
+  background: rgba(0, 212, 255, 0.2);
   color: var(--accent);
 }
 
 /* ===== Noise overlay (dark only) ===== */
 [data-theme="dark"] body::before {
-  content: '';
+  content: "";
   position: fixed;
   top: 0;
   left: 0;
@@ -110,7 +126,7 @@ html[dir="ltr"] body {
 
 /* ===== Utility classes ===== */
 .glow-accent {
-  text-shadow: 0 0 20px rgba(0,212,255,0.5);
+  text-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
 }
 
 .glow-box {
@@ -146,7 +162,7 @@ html[dir="ltr"] body {
 }
 
 .tech-card:hover {
-  border-color: rgba(0,212,255,0.3);
+  border-color: rgba(0, 212, 255, 0.3);
   transform: translateY(-3px);
   box-shadow: 0 12px 30px var(--shadow);
 }
@@ -168,13 +184,18 @@ html[dir="ltr"] body {
 }
 
 .btn-primary::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
   transition: left 0.5s ease;
 }
 
@@ -263,7 +284,8 @@ html[dir="ltr"] body {
 }
 
 @keyframes float {
-  0%, 100% {
+  0%,
+  100% {
     transform: translateY(0);
   }
   50% {
@@ -272,7 +294,8 @@ html[dir="ltr"] body {
 }
 
 @keyframes blink {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -297,11 +320,3 @@ html[dir="ltr"] body {
   animation: float 6s ease-in-out infinite;
 }
 
-/* ===== RTL tweaks ===== */
-[dir="rtl"] .font-mono {
-  letter-spacing: 0;
-}
-
-[dir="rtl"] .section-title {
-  letter-spacing: 0;
-}

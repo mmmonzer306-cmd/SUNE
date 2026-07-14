@@ -24,7 +24,7 @@ export default function Skills({ skills }: { skills: Skill[] }) {
       <div className="relative z-10 max-w-7xl mx-auto px-6">
         <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
           className="text-center mb-20">
-          <p className="font-mono text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
+          <p className=" text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>
             &gt; skills.exe
           </p>
           <h2 className="section-title gradient-text mb-4">{t('skills.title')}</h2>
@@ -46,7 +46,7 @@ export default function Skills({ skills }: { skills: Skill[] }) {
               )}
               <div className="flex items-center justify-between mb-2">
                 <h3 className="font-bold text-lg" style={{ color: 'var(--text)' }}>{getName(skill)}</h3>
-                <span className="font-mono font-bold text-sm" style={{ color: 'var(--accent)' }}>{skill.level}%</span>
+                <span className=" font-bold text-sm" style={{ color: 'var(--accent)' }}>{skill.level}%</span>
               </div>
               {getDesc(skill) && (
                 <p className="text-sm leading-relaxed mb-4" style={{ color: 'var(--text-muted)' }}>{getDesc(skill)}</p>
