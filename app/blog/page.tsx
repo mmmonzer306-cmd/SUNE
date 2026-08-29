@@ -6,11 +6,17 @@ import { FiArrowLeft, FiEye, FiCalendar } from 'react-icons/fi';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Blog | Mohammed Mohsen',
-  description: 'Technical articles and insights from Mohammed Mohsen',
+  title: 'Blog | Alex Morgan',
+  description: 'Technical articles and insights from Alex Morgan',
 };
 
-export const revalidate = 60;
+export const revalidate = 3600;
+
+function parseArray(v: unknown): string[] {
+  if (Array.isArray(v)) return v as string[];
+  if (typeof v === 'string') { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch { return []; } }
+  return [];
+}
 
 export default async function BlogPage() {
   let articles: any[] = [];
@@ -24,6 +30,7 @@ export default async function BlogPage() {
       }),
       prisma.profile.findUnique({ where: { id: 1 } }),
     ]);
+    articles = (articles as any[]).map((a) => ({ ...a, tags: parseArray(a.tags) }));
   } catch {}
 
   return (
@@ -37,12 +44,13 @@ export default async function BlogPage() {
           </Link>
           <div className="mb-16">
             <p className=" text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>&gt; blog.all</p>
-            <h1 className="section-title gradient-text">Tech Articles</h1>
+            <h1 className="section-title mb-4">Tech Articles</h1>
+            <div className="section-ornament !mx-0" />
           </div>
 
           {articles.length === 0 ? (
             <div className="text-center  py-20 tech-card" style={{ color: 'var(--text-muted)' }}>
-              // No articles published yet.
+              {'// No articles published yet.'}
             </div>
           ) : (
             <div className="space-y-6">

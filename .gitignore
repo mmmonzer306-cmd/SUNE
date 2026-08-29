@@ -1,7 +1,55 @@
+# ── Dependencies ──────────────────────────────
 node_modules/
+.pnp
+.pnp.js
+
+# ── Next.js build output ──────────────────────
 .next/
+out/
+build/
+next-env.d.ts
+
+# ── Environment secrets ───────────────────────
 .env
 .env.local
-*.tsbuildinfo
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ── Database ──────────────────────────────────
+prisma/dev.db
+prisma/dev.db-journal
+dev.db
+*.db
+*.db-journal
+
+# ── User uploads ──────────────────────────────
 public/uploads/*
 !public/uploads/.gitkeep
+
+# ── TypeScript / tooling caches ───────────────
+*.tsbuildinfo
+.eslintcache
+
+# ── Logs & local artifacts ────────────────────
+*.log
+build-log.txt
+build-check.log
+lint-check.log
+npm-debug.log*
+yarn-error.log*
+
+# ── Editors & OS ──────────────────────────────
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ── Local tooling scratch dirs ────────────────
+.playwright-mcp/
+.netlify/
+.vercel/
+
+# ── Local screenshots / scratch media ─────────
+mobile-current.png
+*-screenshot.png

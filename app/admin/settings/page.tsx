@@ -1,14 +1,27 @@
 'use client';
 import { useState } from 'react';
-import AdminNav from '@/components/admin/AdminNav';
-import { FiLock, FiSun, FiMoon, FiSave } from 'react-icons/fi';
+import { FiLock, FiSun, FiMoon, FiSave, FiShield } from 'react-icons/fi';
 import { useApp } from '@/lib/AppContext';
+import { useSession } from 'next-auth/react';
+import { toast } from '@/components/ui/Toast';
 
 export default function AdminSettings() {
   const { theme, toggleTheme, lang, setLang } = useApp();
+  const { update } = useSession();
   const [pass, setPass] = useState({ current: '', new: '', confirm: '' });
   const [passStatus, setPassStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [passError, setPassError] = useState('');
+  const [security, setSecurity] = useState({ question: '', answer: '' });
+
+  const saveSecurity = async () => {
+    if (!security.question || !security.answer) { toast('أدخل السؤال والإجابة'); return; }
+    await fetch('/api/settings', {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ type: 'securityQuestion', ...security }),
+    });
+    toast('تم حفظ سؤال الأمان');
+    setSecurity({ question: '', answer: '' });
+  };
 
   const changePassword = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,6 +36,7 @@ export default function AdminSettings() {
       });
       const data = await res.json();
       if (data.success) {
+        await update();
         setPassStatus('success');
         setPass({ current: '', new: '', confirm: '' });
       } else {
@@ -34,13 +48,12 @@ export default function AdminSettings() {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <AdminNav />
       <main className="max-w-2xl mx-auto px-6 py-10">
         <h1 className="font-display text-2xl font-bold gradient-text mb-8">Settings</h1>
 
         {/* Theme */}
         <div className="tech-card p-6 mb-6">
-          <p className=" text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>// Appearance</p>
+           <p className=" text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>{'// Appearance'}</p>
           <div className="flex items-center justify-between">
             <div>
               <p className="font-medium" style={{ color: 'var(--text)' }}>Theme</p>
@@ -54,9 +67,9 @@ export default function AdminSettings() {
 
         {/* Language */}
         <div className="tech-card p-6 mb-6">
-          <p className=" text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>// Default Language</p>
+           <p className=" text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>{'// Default Language'}</p>
           <div className="flex gap-3">
-            {(['en', 'ar', 'fr'] as const).map((l) => (
+            {(['en', 'ar'] as const).map((l) => (
               <button key={l} onClick={() => setLang(l)}
                 className="px-4 py-2 rounded-lg text-sm  uppercase border transition-all"
                 style={{
@@ -65,15 +78,31 @@ export default function AdminSettings() {
                   borderColor: lang === l ? 'var(--accent)' : 'var(--border)',
                   fontWeight: lang === l ? 700 : 400,
                 }}>
-                {l === 'en' ? '🇺🇸 English' : l === 'ar' ? '🇸🇦 العربية' : '🇫🇷 Français'}
+                {l === 'en' ? '🇺🇸 English' : '🇸🇦 العربية'}
               </button>
             ))}
           </div>
         </div>
 
+        {/* Security Question */}
+        <div className="tech-card p-6 mb-6">
+          <p className="text-xs uppercase tracking-widest mb-4 flex items-center gap-2" style={{ color: 'var(--text-muted)' }}>
+            <FiShield size={13} /> Security Question (Password Recovery)
+          </p>
+          <div className="space-y-3">
+            <input type="text" placeholder="السؤال السري (مثال: ما اسم أول مشروع؟)" value={security.question}
+              onChange={(e) => setSecurity({ ...security, question: e.target.value })} className="tech-input text-sm" />
+            <input type="text" placeholder="الإجابة" value={security.answer}
+              onChange={(e) => setSecurity({ ...security, answer: e.target.value })} className="tech-input text-sm" />
+            <button onClick={saveSecurity} className="btn-outline text-sm flex items-center gap-2">
+              <FiSave size={13} /> Save Security Question
+            </button>
+          </div>
+        </div>
+
         {/* Change Password */}
         <div className="tech-card p-6">
-          <p className=" text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>// Change Password</p>
+           <p className=" text-xs uppercase tracking-widest mb-4" style={{ color: 'var(--text-muted)' }}>{'// Change Password'}</p>
           <form onSubmit={changePassword} className="space-y-4">
             <div>
               <label className="block text-xs  mb-1.5" style={{ color: 'var(--text-muted)' }}>Current Password</label>

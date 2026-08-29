@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
 export async function GET() {
@@ -20,7 +20,7 @@ export async function PUT(req: NextRequest) {
     const profile = await prisma.profile.upsert({
       where: { id: 1 },
       update: data,
-      create: { id: 1, name: data.name || 'Mohammed Mohsen', title: data.title || 'Developer', ...data },
+      create: { id: 1, name: data.name || 'Alex Morgan', title: data.title || 'Developer', ...data },
     });
     return NextResponse.json(profile);
   } catch {

@@ -1,0 +1,87 @@
+const { PrismaClient } = require('@prisma/client');
+const p = new PrismaClient();
+
+const defaults = [
+  { key: 'brand.mark', value: 'MM', valueAr: 'MM' },
+  { key: 'brand.suffix', value: '_dev', valueAr: '_dev' },
+  { key: 'nav.home', value: 'Home', valueAr: 'الرئيسية' },
+  { key: 'nav.about', value: 'About Me', valueAr: 'عنّي' },
+  { key: 'nav.skills', value: 'My Skills', valueAr: 'مهاراتي' },
+  { key: 'nav.services', value: 'Services', valueAr: 'الخدمات' },
+  { key: 'nav.projects', value: 'My Works', valueAr: 'أعمالي' },
+  { key: 'nav.blog', value: 'Blog', valueAr: 'المدونة' },
+  { key: 'nav.contact', value: 'Contact Me', valueAr: 'اتصل بي' },
+  { key: 'nav.available', value: 'Available for new projects', valueAr: 'متاح لمشاريع جديدة' },
+  { key: 'nav.cta', value: 'Hire Me', valueAr: 'وظّفني' },
+  { key: 'nav.stats', value: 'Stats', valueAr: 'الأرقام' },
+  { key: 'nav.experience', value: 'Experience', valueAr: 'الخبرة' },
+  { key: 'nav.testimonials', value: 'Testimonials', valueAr: 'آراء العملاء' },
+  { key: 'nav.faq', value: 'FAQ', valueAr: 'الأسئلة الشائعة' },
+  { key: 'footer.description', value: 'Full-Stack Developer & Software Engineer - turning ideas into living digital products.', valueAr: 'مطور متكامل ومهندس برمجيات - أحوّل الأفكار إلى منتجات رقمية حية.' },
+  { key: 'footer.cta', value: 'Start a Project', valueAr: 'ابدأ مشروعك الآن' },
+  { key: 'footer.crafted', value: 'Crafted with', valueAr: 'صُنع بـ' },
+  { key: 'footer.passion', value: '& a lot of passion', valueAr: 'وكثير من الشغف' },
+  { key: 'marquee.hint', value: 'Click the icons - they play!', valueAr: 'اضغط على الأيقونات - إنها تلعب!' },
+  { key: 'blocks.title', value: 'Why Work With Me', valueAr: 'لماذا تختارني' },
+  { key: 'blocks.hint', value: 'The advantages you get with every project', valueAr: 'المزايا التي أقدمها في كل مشروع' },
+  { key: 'experience.hint', value: 'Click any milestone to read the full story', valueAr: 'اضغط على أي مرحلة لقراءة القصة كاملة' },
+  { key: 'experience.storyLabel', value: 'Story of this phase', valueAr: 'قصة المرحلة' },
+  { key: 'experience.readMore', value: '+ Read the full story', valueAr: '+ اقرأ القصة الكاملة' },
+  { key: 'projects.story', value: 'Story', valueAr: 'القصة' },
+  { key: 'projects.all', value: 'All', valueAr: 'الكل' },
+  { key: 'projects.featured', value: 'Featured', valueAr: 'مميز' },
+  { key: 'projects.emptyTitle', value: 'New projects are on the way', valueAr: 'مشاريعي القادمة في الطريق' },
+  { key: 'projects.emptyText', value: "My work will appear here soon - or let's start your project first", valueAr: 'ستظهر هنا أعمالي قريباً - أو لنبدأ مشروعك أنت أولاً' },
+  { key: 'contact.intro', value: 'Get In Touch', valueAr: 'تواصل معي' },
+  { key: 'contact.budget', value: 'Budget (optional)', valueAr: 'الميزانية (اختياري)' },
+  { key: 'contact.back', value: 'Back', valueAr: 'رجوع' },
+  { key: 'contact.next', value: 'Next', valueAr: 'التالي' },
+  // Section kickers
+  { key: 'kicker.home', value: 'Hello, I\'m', valueAr: 'مرحبًا، أنا' },
+  { key: 'kicker.about', value: 'about.md', valueAr: 'عني.md' },
+  { key: 'kicker.skills', value: 'skills.exe', valueAr: 'مهاراتي.exe' },
+  { key: 'kicker.services', value: 'services.offer()', valueAr: 'خدماتي()' },
+  { key: 'kicker.experience', value: 'journey.log', valueAr: 'مسيرتي.log' },
+  { key: 'kicker.projects', value: 'projects.json', valueAr: 'مشاريعي.json' },
+  { key: 'kicker.testimonials', value: 'reviews.render()', valueAr: 'آراء()' },
+  { key: 'kicker.blog', value: 'blog.latest', valueAr: 'المدونة' },
+  { key: 'kicker.faq', value: 'faq.md', valueAr: 'أسئلة.md' },
+  { key: 'kicker.contact', value: 'contact.init()', valueAr: 'تواصل()' },
+  { key: 'kicker.stats', value: 'stats.json', valueAr: 'أرقام.json' },
+  { key: 'kicker.blocks', value: 'why-me.config', valueAr: 'مزايا.config' },
+  // Hero floating badges
+  { key: 'hero.badge1', value: '<Code />', valueAr: '<كود />' },
+  { key: 'hero.badge2', value: 'Full-Stack ✓', valueAr: 'متكامل ✓' },
+  // Terminal lines (| separated)
+  { key: 'hero.terminal', value: '$ npx create-dream@latest|✓ idea compiled successfully|$ npm run build-future', valueAr: '$ npx انشئ-الحلم|✓ تم بناء الفكرة|$ npm شغّل-المستقبل' },
+  { key: 'splash.cornerTop', value: 'MM / 01', valueAr: 'MM / 01' },
+  { key: 'splash.cornerBottom', value: 'DIGITAL CRAFT / 2026', valueAr: 'صناعة رقمية / 2026' },
+  { key: 'splash.brandEyebrow', value: 'ALEX MORGAN / PORTFOLIO', valueAr: 'أليكس مورغان / معرض الأعمال' },
+  { key: 'splash.firstName', value: 'Alex', valueAr: 'أليكس' },
+  { key: 'splash.lastName', value: 'Morgan', valueAr: 'مورغان' },
+  { key: 'splash.role', value: 'Full-Stack Developer', valueAr: 'مطور ويب متكامل' },
+  { key: 'splash.roleSuffix', value: 'Digital Craftsman', valueAr: 'صانع تجارب رقمية' },
+  { key: 'splash.loading', value: 'Preparing experience', valueAr: 'نجهز تجربتك' },
+  { key: 'splash.status', value: 'Available for meaningful work', valueAr: 'متاح للعمل المؤثر' },
+  { key: 'splash.introEyebrow', value: 'WELCOME TO THE WORKSPACE', valueAr: 'مرحباً بك في مساحة العمل' },
+  { key: 'splash.headlineLine1', value: 'Ideas, shaped', valueAr: 'أفكار، نصوغها' },
+  { key: 'splash.headlineLine2', value: 'into', valueAr: 'إلى' },
+  { key: 'splash.headlineAccent', value: 'experiences.', valueAr: 'تجارب.' },
+  { key: 'splash.description', value: 'Thoughtful interfaces, reliable systems, and digital products built to make an impression.', valueAr: 'واجهات مدروسة وأنظمة موثوقة ومنتجات رقمية صممت لتترك أثراً.' },
+  { key: 'splash.enter', value: 'Explore the portfolio', valueAr: 'استكشف معرض الأعمال' },
+  { key: 'splash.skip', value: 'Skip intro', valueAr: 'تخطي المقدمة' },
+  { key: 'splash.scroll', value: 'Scroll to discover', valueAr: 'مرر للاكتشاف' },
+  { key: 'splash.languages', value: 'EN / AR', valueAr: 'EN / AR' },
+  { key: 'splash.sideLeft', value: 'SELECTED WORKS', valueAr: 'أعمال مختارة' },
+  { key: 'splash.sideLeftSecond', value: 'SYSTEMS', valueAr: 'وأنظمة' },
+  { key: 'splash.sideRight', value: 'SCROLL / ENTER', valueAr: 'مرر / ادخل' },
+  { key: 'splash.sideRightSecond', value: 'TO BEGIN', valueAr: 'للبدء' },
+];
+
+(async () => {
+  for (const s of defaults) {
+    await p.textSnippet.upsert({ where: { key: s.key }, update: {}, create: s });
+  }
+  console.log('snippets:', await p.textSnippet.count());
+  await p.$disconnect();
+})();

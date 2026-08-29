@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { motion } from 'framer-motion';
 import { FiLock, FiEye, FiEyeOff, FiShield } from 'react-icons/fi';
 
@@ -10,6 +11,7 @@ export default function ChangePasswordPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const { update } = useSession();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -31,6 +33,7 @@ export default function ChangePasswordPage() {
       });
       const data = await res.json();
       if (res.ok) {
+        await update();
         router.push('/admin');
       } else {
         setError(data.error || 'Failed to change password');
@@ -45,17 +48,17 @@ export default function ChangePasswordPage() {
     <div>
       <label className="block text-sm  mb-2" style={{ color: 'var(--text-muted)' }}>{label}</label>
       <div className="relative">
-        <FiLock className="absolute left-3 top-1/2 -translate-y-1/2" size={14} style={{ color: 'var(--muted)' }} />
+        <FiLock className="absolute start-4 top-1/2 -translate-y-1/2" size={14} style={{ color: 'var(--muted)' }} />
         <input
           type={show[showKey] ? 'text' : 'password'}
           value={form[field]}
           onChange={(e) => setForm({ ...form, [field]: e.target.value })}
           required
-          className="tech-input pl-10 pr-10"
+          className="tech-input has-icon-start has-icon-end"
           placeholder="••••••••"
         />
         <button type="button" onClick={() => setShow({ ...show, [showKey]: !show[showKey] })}
-          className="absolute right-3 top-1/2 -translate-y-1/2 transition-colors"
+          className="absolute end-3 top-1/2 -translate-y-1/2 transition-colors"
           style={{ color: 'var(--muted)' }}>
           {show[showKey] ? <FiEyeOff size={14} /> : <FiEye size={14} />}
         </button>
@@ -75,7 +78,7 @@ export default function ChangePasswordPage() {
           </div>
           <h1 className="font-display text-2xl font-bold gradient-text">Set New Password</h1>
           <p className="text-sm  mt-2" style={{ color: 'var(--text-muted)' }}>
-            // First login — please change your password
+             {'// First login - please change your password'}
           </p>
         </div>
 

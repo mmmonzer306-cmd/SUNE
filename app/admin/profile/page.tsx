@@ -1,20 +1,21 @@
 'use client';
 import { useEffect, useState } from 'react';
-import AdminNav from '@/components/admin/AdminNav';
 import ImageUpload from '@/components/admin/ImageUpload';
 import { FiSave, FiCheck } from 'react-icons/fi';
 
-const tabs = ['General', 'Bio (EN)', 'Bio (AR)', 'Bio (FR)', 'Social Links'];
+const tabs = ['General', 'Bio (EN)', 'Bio (AR)', 'Social Links'];
 
 export default function AdminProfile() {
   const [tab, setTab] = useState(0);
   const [form, setForm] = useState({
-    name: '', title: '', titleAr: '', titleFr: '',
-    bio1: '', bio1Ar: '', bio1Fr: '',
-    bio2: '', bio2Ar: '', bio2Fr: '',
+    name: '', title: '', titleAr: '',
+    bio1: '', bio1Ar: '',
+    bio2: '', bio2Ar: '',
     email: '', phone: '', github: '', facebook: '',
-    telegram: '', linkedin: '', twitter: '',
+    telegram: '', linkedin: '', twitter: '', whatsapp: '',
     avatarUrl: '', resumeUrl: '',
+    tagline: '', taglineAr: '', location: '', locationAr: '',
+    availability: '', availabilityAr: '',
   });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -34,22 +35,10 @@ export default function AdminProfile() {
     setTimeout(() => setSaved(false), 2000);
   };
 
-  const F = ({ k, label, multi = false, rows = 4 }: { k: keyof typeof form; label: string; multi?: boolean; rows?: number }) => (
-    <div>
-      <label className="block text-sm  mb-2" style={{ color: 'var(--text-muted)' }}>{label}</label>
-      {multi ? (
-        <textarea value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })}
-          rows={rows} className="tech-input resize-none" />
-      ) : (
-        <input type="text" value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })}
-          className="tech-input" />
-      )}
-    </div>
-  );
+  const set = (k: keyof typeof form, v: string) => setForm((prev) => ({ ...prev, [k]: v }));
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <AdminNav />
       <main className="max-w-4xl mx-auto px-6 py-12">
         <div className="flex items-center justify-between mb-10">
           <div>
@@ -75,51 +64,117 @@ export default function AdminProfile() {
 
         <div className="tech-card p-8 space-y-6">
           {tab === 0 && (
-            <>
-              {/* Avatar upload */}
-              <div className="flex gap-8 items-start">
-                <div className="shrink-0">
-                  <ImageUpload value={form.avatarUrl} onChange={(url) => setForm({ ...form, avatarUrl: url })}
-                    folder="profile" label="Profile Photo" aspect="square" />
+            <div className="space-y-6">
+              <div className="w-full max-w-xs">
+                <ImageUpload value={form.avatarUrl} onChange={(url) => setForm((prev) => ({ ...prev, avatarUrl: url }))}
+                  folder="profile" label="Profile Photo" aspect="square" />
+              </div>
+              <div className="grid grid-cols-1 gap-4">
+                <div>
+                  <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Full Name</label>
+                  <input type="text" value={form.name} onChange={(e) => set('name', e.target.value)} className="tech-input" />
                 </div>
-                <div className="flex-1 space-y-4">
-                  <F k="name" label="Full Name" />
-                  <F k="title" label="Job Title (EN)" />
-                  <F k="email" label="Email" />
-                  <F k="phone" label="Phone" />
+                <div>
+                  <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Job Title (EN)</label>
+                  <input type="text" value={form.title} onChange={(e) => set('title', e.target.value)} className="tech-input" />
+                </div>
+                <div>
+                  <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Email</label>
+                  <input type="text" value={form.email} onChange={(e) => set('email', e.target.value)} className="tech-input" />
+                </div>
+                <div>
+                  <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Phone</label>
+                  <input type="text" value={form.phone} onChange={(e) => set('phone', e.target.value)} className="tech-input" />
+                </div>
+                <div>
+                  <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Tagline (EN) — shown under hero title</label>
+                  <input type="text" value={form.tagline} onChange={(e) => set('tagline', e.target.value)} className="tech-input" />
+                </div>
+                <div>
+                  <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>الشعار (AR)</label>
+                  <input type="text" value={form.taglineAr} onChange={(e) => set('taglineAr', e.target.value)} className="tech-input" />
+                </div>
+                <div>
+                  <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Location (EN) e.g. Sudan</label>
+                  <input type="text" value={form.location} onChange={(e) => set('location', e.target.value)} className="tech-input" />
+                </div>
+                <div>
+                  <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>الموقع (AR)</label>
+                  <input type="text" value={form.locationAr} onChange={(e) => set('locationAr', e.target.value)} className="tech-input" />
+                </div>
+                <div>
+                  <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Availability text (EN) e.g. Available for freelance</label>
+                  <input type="text" value={form.availability} onChange={(e) => set('availability', e.target.value)} className="tech-input" />
+                </div>
+                <div>
+                  <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>حالة التوفر (AR)</label>
+                  <input type="text" value={form.availabilityAr} onChange={(e) => set('availabilityAr', e.target.value)} className="tech-input" />
+                </div>
+                <div>
+                  <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Resume / CV URL</label>
+                  <input type="text" value={form.resumeUrl} onChange={(e) => set('resumeUrl', e.target.value)} className="tech-input" />
                 </div>
               </div>
-              <F k="resumeUrl" label="Resume / CV URL" />
-            </>
+            </div>
           )}
           {tab === 1 && (
             <>
-              <F k="title" label="Job Title (English)" />
-              <F k="bio1" label="Bio Paragraph 1 (English)" multi rows={5} />
-              <F k="bio2" label="Bio Paragraph 2 (English)" multi rows={5} />
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Job Title (English)</label>
+                <input type="text" value={form.title} onChange={(e) => set('title', e.target.value)} className="tech-input" />
+              </div>
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Bio Paragraph 1 (English)</label>
+                <textarea value={form.bio1} onChange={(e) => set('bio1', e.target.value)} rows={5} className="tech-input resize-none" />
+              </div>
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Bio Paragraph 2 (English)</label>
+                <textarea value={form.bio2} onChange={(e) => set('bio2', e.target.value)} rows={5} className="tech-input resize-none" />
+              </div>
             </>
           )}
           {tab === 2 && (
             <>
-              <F k="titleAr" label="المسمى الوظيفي (عربي)" />
-              <F k="bio1Ar" label="الفقرة الأولى (عربي)" multi rows={5} />
-              <F k="bio2Ar" label="الفقرة الثانية (عربي)" multi rows={5} />
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>المسمى الوظيفي (عربي)</label>
+                <input type="text" value={form.titleAr} onChange={(e) => set('titleAr', e.target.value)} className="tech-input" />
+              </div>
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>الفقرة الأولى (عربي)</label>
+                <textarea value={form.bio1Ar} onChange={(e) => set('bio1Ar', e.target.value)} rows={5} className="tech-input resize-none" />
+              </div>
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>الفقرة الثانية (عربي)</label>
+                <textarea value={form.bio2Ar} onChange={(e) => set('bio2Ar', e.target.value)} rows={5} className="tech-input resize-none" />
+              </div>
             </>
           )}
           {tab === 3 && (
             <>
-              <F k="titleFr" label="Titre du poste (Français)" />
-              <F k="bio1Fr" label="Paragraphe 1 (Français)" multi rows={5} />
-              <F k="bio2Fr" label="Paragraphe 2 (Français)" multi rows={5} />
-            </>
-          )}
-          {tab === 4 && (
-            <>
-              <F k="github" label="GitHub URL" />
-              <F k="facebook" label="Facebook URL" />
-              <F k="telegram" label="Telegram URL" />
-              <F k="linkedin" label="LinkedIn URL" />
-              <F k="twitter" label="Twitter / X URL" />
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>GitHub URL</label>
+                <input type="text" value={form.github} onChange={(e) => set('github', e.target.value)} className="tech-input" />
+              </div>
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Facebook URL</label>
+                <input type="text" value={form.facebook} onChange={(e) => set('facebook', e.target.value)} className="tech-input" />
+              </div>
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Telegram URL</label>
+                <input type="text" value={form.telegram} onChange={(e) => set('telegram', e.target.value)} className="tech-input" />
+              </div>
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>WhatsApp URL (https://wa.me/...)</label>
+                <input type="text" value={form.whatsapp} onChange={(e) => set('whatsapp', e.target.value)} className="tech-input" />
+              </div>
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>LinkedIn URL</label>
+                <input type="text" value={form.linkedin} onChange={(e) => set('linkedin', e.target.value)} className="tech-input" />
+              </div>
+              <div>
+                <label className="block text-sm mb-2" style={{ color: 'var(--text-muted)' }}>Twitter / X URL</label>
+                <input type="text" value={form.twitter} onChange={(e) => set('twitter', e.target.value)} className="tech-input" />
+              </div>
             </>
           )}
         </div>

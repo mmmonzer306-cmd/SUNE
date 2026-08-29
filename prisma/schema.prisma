@@ -9,15 +9,22 @@ datasource db {
 
 model Profile {
   id        Int      @id @default(1)
-  name      String   @default("Mohammed Mohsen")
+  name      String   @default("Alex Morgan")
   title     String   @default("Full-stack Web Developer")
   bio1      String?
   bio2      String?
   email     String?
   phone     String?
+  tagline   String?
+  taglineAr String?
+  location  String?
+  locationAr String?
+  availability  String?
+  availabilityAr String?
   github    String?
   facebook  String?
   telegram  String?
+  whatsapp  String?
   linkedin  String?
   twitter   String?
   avatarUrl String?
@@ -42,6 +49,7 @@ model Skill {
   descAr      String?
   descFr      String?
   level       Int    @default(80)
+  category    String @default("frontend") // frontend | backend | tools | other
   imageUrl    String?
   order       Int    @default(0)
 }
@@ -57,8 +65,10 @@ model Project {
   imageUrl    String?
   liveUrl     String?
   githubUrl   String?
-  techStack   String[]
+  techStack   String   @default("[]")
   featured    Boolean  @default(false)
+  slug        String?  @unique
+  caseStudy   String?  // markdown: overview / challenge / solution / result
   order       Int      @default(0)
   createdAt   DateTime @default(now())
 }
@@ -70,7 +80,7 @@ model Article {
   excerpt    String?
   content    String
   coverImage String?
-  tags       String[]
+  tags       String   @default("[]")
   published  Boolean  @default(false)
   views      Int      @default(0)
   createdAt  DateTime @default(now())
@@ -91,13 +101,92 @@ model Admin {
   id              Int     @id @default(1)
   username        String  @unique
   password        String
-  mustChangePass  Boolean @default(true)
+  mustChangePass  Boolean @default(false)
+  securityQuestion String?
+  securityAnswer  String? // SHA-256 hashed, lowercase-trimmed
+}
+
+model Block {
+  id      Int     @id @default(autoincrement())
+  title   String
+  titleAr String?
+  text    String?
+  textAr  String?
+  icon    String  @default("FiZap")
+  order   Int     @default(0)
+  visible Boolean @default(true)
+}
+
+model Service {
+  id          Int     @id @default(autoincrement())
+  title       String
+  titleAr     String?
+  description String?
+  descAr      String?
+  icon        String? // react-icons name e.g. "FiShoppingCart"
+  price       String?
+  delivery    String?
+  deliveryAr  String?
+  order       Int     @default(0)
+}
+
+model Testimonial {
+  id       Int     @id @default(autoincrement())
+  name     String
+  role     String?
+  roleAr   String?
+  content  String
+  contentAr String?
+  avatar   String?
+  rating   Int     @default(5)
+  approved Boolean @default(false)
+  order    Int     @default(0)
+}
+
+model Experience {
+  id       Int     @id @default(autoincrement())
+  title    String
+  titleAr  String?
+  org      String?
+  orgAr    String?
+  period   String?
+  desc     String?
+  descAr   String?
+  story    String? // rich long-form story (markdown-ish)
+  storyAr  String?
+  icon     String  @default("FiBriefcase")
+  order    Int     @default(0)
+}
+
+model FAQ {
+  id      Int     @id @default(autoincrement())
+  q       String
+  qAr     String?
+  a       String
+  aAr     String?
+  order   Int     @default(0)
+}
+
+model Stat {
+  id      Int     @id @default(autoincrement())
+  label   String
+  labelAr String?
+  value   Int     @default(0)
+  suffix  String  @default("+")
+  order   Int     @default(0)
+}
+
+// Free-form editable UI texts (kickers, badges, terminal lines...)
+model TextSnippet {
+  key     String  @id
+  value   String
+  valueAr String?
 }
 
 model SiteSettings {
   id          Int    @id @default(1)
   theme       String @default("dark")
   lang        String @default("en")
-  metaTitle   String @default("Mohammed Mohsen | Software Engineer")
+  metaTitle   String @default("Alex Morgan | Software Engineer")
   metaDesc    String @default("Full-Stack Developer passionate about turning ideas into reality.")
 }

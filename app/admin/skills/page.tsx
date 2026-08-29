@@ -1,11 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
-import AdminNav from '@/components/admin/AdminNav';
 import ImageUpload from '@/components/admin/ImageUpload';
 import { FiPlus, FiTrash2, FiEdit, FiSave, FiX } from 'react-icons/fi';
+import Image from 'next/image';
 
-interface Skill { id: number; name: string; nameAr?: string; nameFr?: string; description?: string; descAr?: string; descFr?: string; level: number; imageUrl?: string; }
-const empty = { name: '', nameAr: '', nameFr: '', description: '', descAr: '', descFr: '', level: 80, imageUrl: '' };
+interface Skill { id: number; name: string; nameAr?: string; description?: string; descAr?: string; level: number; imageUrl?: string; category?: string; }
+const empty = { name: '', nameAr: '', description: '', descAr: '', level: 80, imageUrl: '', category: 'frontend' };
 
 export default function AdminSkills() {
   const [skills, setSkills] = useState<Skill[]>([]);
@@ -32,17 +32,10 @@ export default function AdminSkills() {
   };
 
   const edit = (s: Skill) => { setForm({ ...empty, ...s }); setEditing(s.id); setShowForm(true); };
-
-  const F = ({ k, label }: { k: keyof typeof form; label: string }) => (
-    <div>
-      <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>{label}</label>
-      <input value={String(form[k])} onChange={(e) => setForm({ ...form, [k]: e.target.value })} className="tech-input text-sm py-2" />
-    </div>
-  );
+  const set = (k: keyof typeof empty, v: string) => setForm((prev) => ({ ...prev, [k]: v }));
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <AdminNav />
       <main className="max-w-5xl mx-auto px-6 py-12">
         <div className="flex items-center justify-between mb-10">
           <div>
@@ -62,31 +55,38 @@ export default function AdminSkills() {
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
-                <div className="grid grid-cols-3 gap-3">
-                  <F k="name" label="Name (EN)" />
-                  <F k="nameAr" label="الاسم (AR)" />
-                  <F k="nameFr" label="Nom (FR)" />
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>Name (EN)</label>
+                    <input value={String(form.name)} onChange={(e) => set('name', e.target.value)} className="tech-input text-sm py-2" />
+                  </div>
+                  <div>
+                    <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>الاسم (AR)</label>
+                    <input value={String(form.nameAr)} onChange={(e) => set('nameAr', e.target.value)} className="tech-input text-sm py-2" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>Category</label>
+                  <select value={form.category} onChange={(e) => setForm((prev) => ({ ...prev, category: e.target.value }))} className="tech-input text-sm">
+                    {['frontend', 'backend', 'tools', 'other'].map((c) => <option key={c} value={c}>{c}</option>)}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>Level: {form.level}%</label>
                   <input type="range" min={0} max={100} value={form.level}
-                    onChange={(e) => setForm({ ...form, level: Number(e.target.value) })}
+                    onChange={(e) => setForm((prev) => ({ ...prev, level: Number(e.target.value) }))}
                     className="w-full" style={{ accentColor: 'var(--accent)' }} />
                 </div>
                 <div>
                   <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>Description (EN)</label>
-                  <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} rows={2} className="tech-input text-sm resize-none" />
+                  <textarea value={form.description} onChange={(e) => setForm((prev) => ({ ...prev, description: e.target.value }))} rows={2} className="tech-input text-sm resize-none" />
                 </div>
                 <div>
                   <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>الوصف (AR)</label>
-                  <textarea value={form.descAr} onChange={(e) => setForm({ ...form, descAr: e.target.value })} rows={2} className="tech-input text-sm resize-none" />
-                </div>
-                <div>
-                  <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>Description (FR)</label>
-                  <textarea value={form.descFr} onChange={(e) => setForm({ ...form, descFr: e.target.value })} rows={2} className="tech-input text-sm resize-none" />
+                  <textarea value={form.descAr} onChange={(e) => setForm((prev) => ({ ...prev, descAr: e.target.value }))} rows={2} className="tech-input text-sm resize-none" />
                 </div>
               </div>
-              <ImageUpload value={form.imageUrl} onChange={(url) => setForm({ ...form, imageUrl: url })} folder="skills" label="Skill Image (optional)" />
+              <ImageUpload value={form.imageUrl} onChange={(url) => setForm((prev) => ({ ...prev, imageUrl: url }))} folder="skills" label="Skill Image (optional)" />
             </div>
             <div className="flex gap-3 mt-6">
               <button onClick={save} className="btn-primary flex items-center gap-2 text-sm"><FiSave /> Save</button>
@@ -98,7 +98,7 @@ export default function AdminSkills() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {skills.map((s) => (
             <div key={s.id} className="tech-card p-5 flex items-center gap-4">
-              {s.imageUrl && <img src={s.imageUrl} alt={s.name} className="w-12 h-12 rounded-lg object-cover shrink-0" />}
+              {s.imageUrl && <Image src={s.imageUrl} alt={s.name} width={48} height={48} className="w-12 h-12 rounded-lg object-cover shrink-0" />}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <span className="font-bold" style={{ color: 'var(--text)' }}>{s.name}</span>

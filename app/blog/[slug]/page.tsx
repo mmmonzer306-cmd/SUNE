@@ -4,27 +4,37 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';
-import { FiArrowLeft, FiEye, FiCalendar } from 'react-icons/fi';
+import { FiArrowLeft, FiEye, FiCalendar, FiClock } from 'react-icons/fi';
 import type { Metadata } from 'next';
+import { ReadingProgress, ShareButtons, ArticleBody } from '@/components/blog/ArticleEnhancements';
 
-export async function generateMetadata({ params }: { params: { slug: string } }): Promise<Metadata> {
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   try {
-    const article = await prisma.article.findUnique({ where: { slug: params.slug } });
+    const { slug } = await params;
+    const article = await prisma.article.findUnique({ where: { slug } });
     if (!article) return { title: 'Not Found' };
-    return { title: `${article.title} | Mohammed Mohsen`, description: article.excerpt || '' };
+    return { title: `${article.title} | Alex Morgan`, description: article.excerpt || '' };
   } catch {
-    return { title: 'Mohammed Mohsen' };
+    return { title: 'Alex Morgan' };
   }
 }
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
+function parseArray(v: unknown): string[] {
+  if (Array.isArray(v)) return v as string[];
+  if (typeof v === 'string') { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch { return []; } }
+  return [];
+}
+
+export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
   let article: any = null;
   let profile: any = null;
   try {
     [article, profile] = await Promise.all([
-      prisma.article.findUnique({ where: { slug: params.slug } }),
+      prisma.article.findUnique({ where: { slug } }),
       prisma.profile.findUnique({ where: { id: 1 } }),
     ]);
+    if (article) article.tags = parseArray(article.tags);
   } catch {}
 
   if (!article || !article.published) notFound();
@@ -33,8 +43,21 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     await prisma.article.update({ where: { id: article.id }, data: { views: { increment: 1 } } });
   } catch {}
 
+  const readMinutes = Math.max(1, Math.ceil(String(article.content).split(/\s+/).length / 200));
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: article.title,
+    description: article.excerpt || '',
+    datePublished: article.createdAt,
+    author: { '@type': 'Person', name: 'Alex Morgan' },
+  };
+
   return (
     <>
+      <ReadingProgress />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <Navbar />
       <main className="min-h-screen pt-32 pb-20" style={{ background: 'var(--bg)' }}>
         <div className="max-w-3xl mx-auto px-6">
@@ -51,16 +74,22 @@ export default async function ArticlePage({ params }: { params: { slug: string }
             ))}
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-6 leading-tight" style={{ color: 'var(--text)' }}>{article.title}</h1>
-          <div className="flex gap-6 text-xs  mb-12 pb-8" style={{ color: 'var(--muted)', borderBottom: '1px solid var(--border)' }}>
-            <span className="flex items-center gap-1"><FiCalendar size={11} /> {new Date(article.createdAt).toLocaleDateString()}</span>
-            <span className="flex items-center gap-1"><FiEye size={11} /> {article.views + 1} views</span>
+          <div className="flex flex-wrap items-center justify-between gap-4 text-xs mb-12 pb-8" style={{ color: 'var(--muted)', borderBottom: '1px solid var(--border)' }}>
+            <div className="flex gap-6">
+              <span className="flex items-center gap-1"><FiCalendar size={11} /> {new Date(article.createdAt).toLocaleDateString()}</span>
+              <span className="flex items-center gap-1"><FiEye size={11} /> {article.views + 1} views</span>
+              <span className="flex items-center gap-1"><FiClock size={11} /> {readMinutes} min read</span>
+            </div>
+            <ShareButtons title={article.title} />
           </div>
           <div className="prose prose-invert prose-lg max-w-none
             prose-headings:font-display prose-headings:text-[var(--text)]
             prose-p:text-[var(--text-muted)] prose-p:leading-relaxed
             prose-a:text-[var(--accent)] prose-code:text-[var(--accent)]
             prose-strong:text-[var(--text)]">
-            <ReactMarkdown>{article.content}</ReactMarkdown>
+            <ArticleBody>
+              <ReactMarkdown>{article.content}</ReactMarkdown>
+            </ArticleBody>
           </div>
         </div>
       </main>

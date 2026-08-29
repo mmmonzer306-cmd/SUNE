@@ -3,27 +3,42 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { FiArrowRight, FiEye, FiCalendar } from 'react-icons/fi';
 import { useApp } from '@/lib/AppContext';
+import Kicker from '@/components/ui/Kicker';
 
-interface Article { id: number; title: string; slug: string; excerpt?: string; tags: string[]; coverImage?: string; createdAt: Date; views: number; }
+function asArray(v: unknown): string[] {
+  if (Array.isArray(v)) return v as string[];
+  if (typeof v === 'string') { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch { return []; } }
+  return [];
+}
 
-export default function BlogPreview({ articles }: { articles: Article[] }) {
-  const { t } = useApp();
+interface Article { id: number; title: string; slug: string; excerpt?: string; tags: string[] | string; coverImage?: string; createdAt: Date; views: number; }
+
+type Snippets = Record<string, { value: string; valueAr: string | null }>;
+
+export default function BlogPreview({ articles, snippets = {} }: { articles: Article[]; snippets?: Snippets }) {
+  const { t, lang } = useApp();
+  const snip = (k: string, fb: string) => {
+    const s = snippets[k];
+    return s ? ((lang === 'ar' && s.valueAr) ? s.valueAr : s.value) : fb;
+  };
   if (articles.length === 0) return null;
 
   return (
     <section id="blog" className="py-32 relative">
       <div className="max-w-7xl mx-auto px-6">
-        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+        <motion.div initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.35 }} transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="flex items-end justify-between mb-16">
           <div>
-            <p className=" text-sm tracking-widest uppercase mb-3" style={{ color: 'var(--accent)' }}>&gt; blog.latest</p>
-            <h2 className="section-title gradient-text">{t('blog.title')}</h2>
+            <Kicker text={snip('kicker.blog', 'blog.latest')} />
+            <h2 className="section-title mb-4">{t('blog.title')}</h2>
+            <div className="section-ornament !mx-0" />
           </div>
           <Link href="/blog" className="hidden md:flex items-center gap-2 text-sm  transition-colors"
             style={{ color: 'var(--text-muted)' }}
             onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--accent)')}
             onMouseLeave={(e) => (e.currentTarget.style.color = 'var(--text-muted)')}>
-            View All <FiArrowRight />
+            {t('viewAll')} <FiArrowRight />
           </Link>
         </motion.div>
 
@@ -33,7 +48,7 @@ export default function BlogPreview({ articles }: { articles: Article[] }) {
               viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
               <Link href={`/blog/${article.slug}`} className="tech-card glow-hover block p-6 h-full">
                 <div className="flex flex-wrap gap-2 mb-4">
-                  {article.tags.slice(0, 2).map((tag) => (
+                  {asArray(article.tags).slice(0, 2).map((tag) => (
                     <span key={tag} className="text-xs  px-2 py-1 rounded tag-accent">#{tag}</span>
                   ))}
                 </div>

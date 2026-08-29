@@ -7,7 +7,12 @@ export { useApp } from '@/lib/AppContext';
 export function Providers({ children, theme, lang }: { children: React.ReactNode; theme?: string; lang?: string }) {
   return (
     <SessionProvider>
-      <AppProvider>{children}</AppProvider>
+      <AppProvider
+        initialTheme={theme === 'light' ? 'light' : 'dark'}
+        initialLang={lang === 'ar' ? 'ar' : 'en'}
+      >
+        {children}
+      </AppProvider>
     </SessionProvider>
   );
 }

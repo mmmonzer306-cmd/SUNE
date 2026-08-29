@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import slugify from 'slugify';
+
+function parseArray(v: unknown): string[] {
+  if (Array.isArray(v)) return v as string[];
+  if (typeof v === 'string') { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch { return []; } }
+  return [];
+}
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -13,14 +19,16 @@ export async function GET(req: NextRequest) {
     where, orderBy: { createdAt: 'desc' },
     select: { id: true, title: true, slug: true, excerpt: true, coverImage: true, tags: true, published: true, views: true, createdAt: true },
   });
-  return NextResponse.json(articles);
+  const mapped = (articles as any[]).map((a) => ({ ...a, tags: parseArray(a.tags) }));
+  return NextResponse.json(mapped);
 }
 
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   const data = await req.json();
+  if (Array.isArray(data.tags)) data.tags = JSON.stringify(data.tags);
   const slug = slugify(data.title, { lower: true, strict: true });
   const article = await prisma.article.create({ data: { ...data, slug } });
-  return NextResponse.json(article);
+  return NextResponse.json({ ...article, tags: parseArray((article as any).tags) });
 }

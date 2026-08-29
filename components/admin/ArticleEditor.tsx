@@ -1,7 +1,6 @@
 'use client';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import AdminNav from '@/components/admin/AdminNav';
 import ImageUpload from '@/components/ui/ImageUpload';
 import { FiSave, FiArrowLeft } from 'react-icons/fi';
 import Link from 'next/link';
@@ -9,8 +8,14 @@ import dynamic from 'next/dynamic';
 
 const MDEditor = dynamic(() => import('@uiw/react-md-editor'), { ssr: false });
 
+function asArray(v: unknown): string[] {
+  if (Array.isArray(v)) return v as string[];
+  if (typeof v === 'string') { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch { return []; } }
+  return [];
+}
+
 interface Props {
-  article?: { id: number; title: string; excerpt: string | null; content: string; tags: string[]; published: boolean; coverImage: string | null; };
+  article?: { id: number; title: string; excerpt: string | null; content: string; tags: string[] | string; published: boolean; coverImage: string | null; };
 }
 
 export default function ArticleEditor({ article }: Props) {
@@ -19,7 +24,7 @@ export default function ArticleEditor({ article }: Props) {
     title: article?.title || '',
     excerpt: article?.excerpt || '',
     content: article?.content || '',
-    tags: article?.tags.join(', ') || '',
+    tags: asArray(article?.tags).join(', ') || '',
     published: article?.published || false,
     coverImage: article?.coverImage || '',
   });
@@ -37,7 +42,6 @@ export default function ArticleEditor({ article }: Props) {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <AdminNav />
       <main className="max-w-4xl mx-auto px-6 py-10">
         <div className="flex items-center justify-between mb-6">
           <Link href="/admin/articles" className="flex items-center gap-2 text-sm  transition-colors" style={{ color: 'var(--text-muted)' }}

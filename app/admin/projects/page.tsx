@@ -1,11 +1,16 @@
 'use client';
 import { useEffect, useState } from 'react';
-import AdminNav from '@/components/admin/AdminNav';
 import ImageUpload from '@/components/admin/ImageUpload';
 import { FiPlus, FiTrash2, FiEdit, FiSave, FiX, FiStar } from 'react-icons/fi';
+import Image from 'next/image';
 
-interface Project { id: number; name: string; nameAr?: string; nameFr?: string; description?: string; descAr?: string; descFr?: string; techStack: string[]; githubUrl?: string; liveUrl?: string; imageUrl?: string; featured: boolean; }
-const empty = { name: '', nameAr: '', nameFr: '', description: '', descAr: '', descFr: '', techStack: '', githubUrl: '', liveUrl: '', imageUrl: '', featured: false };
+function asArray(v: unknown): string[] {
+  if (Array.isArray(v)) return v as string[];
+  if (typeof v === 'string') { try { const p = JSON.parse(v); return Array.isArray(p) ? p : []; } catch { return []; } }
+  return [];
+}
+interface Project { id: number; name: string; nameAr?: string; description?: string; descAr?: string; techStack: string[] | string; githubUrl?: string; liveUrl?: string; imageUrl?: string; featured: boolean; slug?: string; caseStudy?: string; }
+const empty = { name: '', nameAr: '', description: '', descAr: '', techStack: '', githubUrl: '', liveUrl: '', imageUrl: '', featured: false, slug: '', caseStudy: '' };
 
 export default function AdminProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -32,13 +37,12 @@ export default function AdminProjects() {
   };
 
   const edit = (p: Project) => {
-    setForm({ ...empty, ...p, techStack: p.techStack.join(', ') } as typeof empty);
+    setForm({ ...empty, ...p, techStack: asArray(p.techStack).join(', ') } as typeof empty);
     setEditing(p.id); setShowForm(true);
   };
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
-      <AdminNav />
       <main className="max-w-5xl mx-auto px-6 py-12">
         <div className="flex items-center justify-between mb-10">
           <div>
@@ -58,11 +62,11 @@ export default function AdminProjects() {
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div className="space-y-4">
-                <div className="grid grid-cols-3 gap-2">
-                  {(['name', 'nameAr', 'nameFr'] as const).map((k, i) => (
+                <div className="grid grid-cols-2 gap-2">
+                  {(['name', 'nameAr'] as const).map((k, i) => (
                     <div key={k}>
                       <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>
-                        {['Name (EN)', 'الاسم (AR)', 'Nom (FR)'][i]}
+                        {['Name (EN)', 'الاسم (AR)'][i]}
                       </label>
                       <input value={form[k]} onChange={(e) => setForm({ ...form, [k]: e.target.value })} className="tech-input text-sm py-2" />
                     </div>
@@ -71,13 +75,21 @@ export default function AdminProjects() {
                 {[
                   { k: 'description', label: 'Description (EN)' },
                   { k: 'descAr', label: 'الوصف (AR)' },
-                  { k: 'descFr', label: 'Description (FR)' },
                 ].map(({ k, label }) => (
                   <div key={k}>
                     <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>{label}</label>
                     <textarea value={form[k as keyof typeof form] as string} onChange={(e) => setForm({ ...form, [k]: e.target.value })} rows={2} className="tech-input text-sm resize-none" />
                   </div>
                 ))}
+                <div>
+                  <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>Slug (URL) — auto if empty</label>
+                  <input value={form.slug} onChange={(e) => setForm({ ...form, slug: e.target.value })} className="tech-input text-sm" placeholder="my-project" />
+                </div>
+                <div>
+                  <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>Case Study (Markdown)</label>
+                  <textarea value={form.caseStudy} onChange={(e) => setForm({ ...form, caseStudy: e.target.value })} rows={6}
+                    className="tech-input text-sm resize-none" placeholder="## Overview&#10;## The Challenge&#10;## The Solution&#10;## The Result" />
+                </div>
                 <div>
                   <label className="block text-xs  mb-1" style={{ color: 'var(--text-muted)' }}>Tech Stack (comma separated)</label>
                   <input value={form.techStack} onChange={(e) => setForm({ ...form, techStack: e.target.value })} className="tech-input text-sm" />
@@ -109,7 +121,7 @@ export default function AdminProjects() {
         <div className="space-y-4">
           {projects.map((p) => (
             <div key={p.id} className="tech-card p-5 flex items-center gap-4">
-              {p.imageUrl && <img src={p.imageUrl} alt={p.name} className="w-16 h-12 rounded-lg object-cover shrink-0" />}
+              {p.imageUrl && <Image src={p.imageUrl} alt={p.name} width={64} height={48} className="w-16 h-12 rounded-lg object-cover shrink-0" />}
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 mb-1">
                   <h3 className="font-bold" style={{ color: 'var(--text)' }}>{p.name}</h3>
@@ -117,7 +129,7 @@ export default function AdminProjects() {
                   {p.featured && <FiStar size={14} style={{ color: '#f59e0b' }} />}
                 </div>
                 <div className="flex flex-wrap gap-1">
-                  {p.techStack.map((t) => (
+                  {asArray(p.techStack).map((t) => (
                     <span key={t} className="text-xs " style={{ color: 'var(--accent-2)' }}>{t}</span>
                   ))}
                 </div>
